@@ -25,7 +25,7 @@ const QuizHistory = () => {
           throw new Error('User is not authenticated');
         }
 
-        const response = await fetch('http://localhost:5000/api/quiz/history', {
+        const response = await fetch('https://quiz-app-k1rp.vercel.app/api/quiz/history', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

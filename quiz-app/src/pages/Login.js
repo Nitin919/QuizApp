@@ -15,7 +15,7 @@ const Login = () => {
     setError(null);
   
     try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
+      const response = await fetch('https://quiz-app-k1rp.vercel.app/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const Login = () => {
       className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
       style={{
         backgroundImage:
-          "url('https://source.unsplash.com/random/1600x900?login,background')",
+          "url('../../bg.png')",
       }}
     >
       <div className="w-full max-w-md p-6 rounded-lg shadow-md bg-gray-800 bg-opacity-80">
