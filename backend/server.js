@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path'); // You missed this import
 const errorMiddleware = require('./middleware/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
 const quizRoutes = require('./routes/quizRoutes');
@@ -18,6 +19,8 @@ if (missingEnvVars.length > 0) {
   process.exit(1);
 }
 
+// Initialize Express application
+const app = express();
 
 // Configure CORS
 app.use(cors({
@@ -25,11 +28,8 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
   allowedHeaders: ['Content-Type', 'Authorization'] // Allow these headers
 }));
-// Initialize Express application
-const app = express();
 
 // Middleware
-app.use(cors()); // Enable CORS
 app.use(express.json()); // Parse JSON requests
 
 // Connect to MongoDB
@@ -48,14 +48,22 @@ const connectDB = async () => {
 
 connectDB();
 
+// API routes
+app.use('/api/users', userRoutes);
+app.use('/api/quiz', quizRoutes);
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Catch-all route to serve the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the API!');
 });
-
-// API routes
-app.use('/api/users', userRoutes);
-app.use('/api/quiz', quizRoutes);
 
 // Error handling middleware
 app.use(errorMiddleware);
