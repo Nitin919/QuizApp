@@ -18,6 +18,13 @@ if (missingEnvVars.length > 0) {
   process.exit(1);
 }
 
+
+// Configure CORS
+app.use(cors({
+  origin: 'https://quiz-app-brown-two.vercel.app', // Allow only this domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allow these headers
+}));
 // Initialize Express application
 const app = express();
 
