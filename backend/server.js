@@ -48,18 +48,19 @@ const connectDB = async () => {
 
 connectDB();
 
+
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../quiz-app/build')));
 // API routes
 app.use('/api/users', userRoutes);
 app.use('/api/quiz', quizRoutes);
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Catch-all route to serve the React app
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'quiz-app/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../quiz-app/build', 'index.html'));
 });
-
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the API!');
