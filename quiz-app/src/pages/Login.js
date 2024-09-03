@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

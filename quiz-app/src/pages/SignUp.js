@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 
 const SignUp = () => {
   const [inputs, setInputs] = useState({
@@ -11,7 +11,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputs((prevInputs) => ({ ...prevInputs, [name]: value }));

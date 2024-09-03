@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 
 const categoryMap = {
   "9": "General Knowledge",
@@ -16,7 +16,7 @@ const QuizHistory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   useEffect(() => {
     const fetchQuizHistory = async () => {
       try {
