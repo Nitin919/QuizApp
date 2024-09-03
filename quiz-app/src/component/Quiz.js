@@ -52,6 +52,7 @@ const Quiz = () => {
     const queryParams = new URLSearchParams(location.search);
     const category = queryParams.get('category');
     const difficulty = queryParams.get('difficulty');
+    
   
     setSelectedCategory(category || '');
     setSelectedDifficulty(difficulty || '');
@@ -162,6 +163,7 @@ const Quiz = () => {
 
 
   const handleSubmitQuiz = async () => {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     // Calculate score from userAnswers
     const calculatedScore = calculateScore(userAnswers);
 
