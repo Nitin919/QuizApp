@@ -186,7 +186,7 @@ const Quiz = () => {
     console.log("Token being used:", userToken);
 
     try {
-      const response = await fetch(`${backendUrl}/app/api/quiz/results`, {
+      const response = await fetch(`${backendUrl}/api/quiz/results`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

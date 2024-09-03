@@ -26,7 +26,7 @@ const QuizHistory = () => {
           throw new Error('User is not authenticated');
         }
 
-        const response = await fetch(`${backendUrl}/app/api/quiz/history`, {
+        const response = await fetch(`${backendUrl}/api/quiz/history`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
