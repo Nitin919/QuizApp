@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import he from 'he';
+
+
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
@@ -16,6 +19,7 @@ const Quiz = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [userAnswers, setUserAnswers] = useState([]); 
   const [submitting, setSubmitting] = useState(false);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -180,7 +184,7 @@ const Quiz = () => {
     console.log("Token being used:", userToken);
 
     try {
-      const response = await fetch('https://quiz-app-k1rp.vercel.app/api/quiz/results', {
+      const response = await fetch(`${backendUrl}/app/api/quiz/results`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

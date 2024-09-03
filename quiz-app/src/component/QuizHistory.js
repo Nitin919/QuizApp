@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const categoryMap = {
   "9": "General Knowledge",
@@ -25,7 +26,7 @@ const QuizHistory = () => {
           throw new Error('User is not authenticated');
         }
 
-        const response = await fetch('https://quiz-app-k1rp.vercel.app/api/quiz/history', {
+        const response = await fetch(`${backendUrl}/app/api/quiz/history`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
