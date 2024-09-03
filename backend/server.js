@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const path = require('path'); // You missed this import
+const path = require('path');
 const errorMiddleware = require('./middleware/errorMiddleware');
 const userRoutes = require('./routes/userRoutes');
 const quizRoutes = require('./routes/quizRoutes');
@@ -22,23 +22,14 @@ if (missingEnvVars.length > 0) {
 // Initialize Express application
 const app = express();
 
-// Configure CORS
-app.use(cors({
-  origin: 'https://quiz-app-brown-two.vercel.app', // Allow only this domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Allow these headers
-}));
-
 // Middleware
+app.use(cors());
 app.use(express.json()); // Parse JSON requests
 
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGO_URI);
     console.log(`MongoDB Connected: ${mongoose.connection.host}`);
   } catch (err) {
     console.error(`MongoDB connection error: ${err.message}`);
@@ -48,22 +39,16 @@ const connectDB = async () => {
 
 connectDB();
 
-
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../quiz-app/build')));
 // API routes
 app.use('/api/users', userRoutes);
 app.use('/api/quiz', quizRoutes);
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../quiz-app/build')));
 
-
+// Catch-all route to serve React's index.html for non-API routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../quiz-app/build', 'index.html'));
-});
-// Root route
-app.get('/', (req, res) => {
-  res.send('Welcome to the API!');
 });
 
 // Error handling middleware
