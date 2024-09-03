@@ -264,90 +264,91 @@ const Quiz = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-white p-6 md:p-10"
-      style={{ backgroundImage: "url('../../bg.png')" }}
-    >
-      {showScore ? (
-        <div className="text-center bg-gray-900 bg-opacity-90 p-8 rounded-lg shadow-lg">
-          <h1 className="text-2xl font-bold mb-4">Your Score: {score} / {questions.length}</h1>
-          <button
-            onClick={handlePlayAgain}
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
-          >
-            Play Again
-          </button>
-          <button
-            onClick={() => navigate('/')}
-            className="mt-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
-          >
-            Back to Home
-          </button>
+    className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-white p-6 md:p-10"
+    style={{ backgroundImage: "url('../../bg.png')" }}
+  >
+    {showScore ? (
+      <div className="text-center bg-gray-900 bg-opacity-90 p-8 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-4">Your Score: {score} / {questions.length}</h1>
+        <button
+          onClick={handlePlayAgain}
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+        >
+          Play Again
+        </button>
+        <button
+          onClick={() => navigate('/')}
+          className="mt-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
+        >
+          Back to Home
+        </button>
+      </div>
+    ) : (
+      <div className="w-full max-w-xl bg-gray-900 bg-opacity-90 p-8 rounded-lg shadow-md">
+        <button
+          onClick={() => navigate('/')}
+          className="mb-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300"
+        >
+          Back to Home
+        </button>
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-lg md:text-xl font-semibold">Question {currentQuestionIndex + 1} of {questions.length}</span>
+          <span className="text-lg md:text-xl font-semibold text-red-500">Time Left: {timeLeft} seconds</span>
         </div>
-      ) : (
-        <div className="w-full max-w-xl bg-gray-900 bg-opacity-90 p-8 rounded-lg shadow-md">
-          <button
-            onClick={() => navigate('/')}
-            className="mb-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300"
-          >
-            Back to Home
-          </button>
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-lg md:text-xl font-semibold">Question {currentQuestionIndex + 1} of {questions.length}</span>
-            <span className="text-lg md:text-xl font-semibold text-red-500">Time Left: {timeLeft} seconds</span>
+        <h2 className="text-xl font-semibold mb-4">
+          {questions[currentQuestionIndex].question}
+        </h2>
+        <div className="grid grid-cols-1 gap-4">
+          {questions[currentQuestionIndex].answerOptions.map((answer, index) => (
+            <button
+              key={index}
+              onClick={() => handleAnswerOptionClick(answer)}
+              className={`py-2 px-4 rounded-lg border
+                ${selectedAnswer === answer
+                  ? (answer === questions[currentQuestionIndex].correctAnswer
+                    ? 'bg-green-500 text-white'
+                    : 'bg-red-500 text-white')
+                  : 'bg-gray-200 text-black hover:bg-gray-300'}
+              `}
+              disabled={selectedAnswer !== null}
+            >
+              {answer}
+            </button>
+          ))}
+        </div>
+        {feedback && (
+          <div className="mt-4 text-lg font-semibold">
+            {feedback}
           </div>
-          <h2 className="text-xl font-semibold mb-4">
-            {questions[currentQuestionIndex].question}
-          </h2>
-          <div className="grid grid-cols-1 gap-4">
-            {questions[currentQuestionIndex].answerOptions.map((answer, index) => (
+        )}
+        {selectedAnswer && (
+          <>
+            <button
+              onClick={handleNextQuestion}
+              className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+            >
+              Next Question
+            </button>
+            {currentQuestionIndex === questions.length - 1 && (
               <button
-                key={index}
-                onClick={() => handleAnswerOptionClick(answer)}
-                className={`py-2 px-4 rounded-lg border
-                  ${selectedAnswer === answer
-                    ? (answer === questions[currentQuestionIndex].correctAnswer
-                      ? 'bg-green-500 text-white'
-                      : 'bg-red-500 text-white')
-                    : 'bg-gray-200 hover:bg-gray-300'}
-                `}
-                disabled={selectedAnswer !== null}
+                onClick={handleSubmitQuiz}
+                className="mt-6 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
               >
-                {answer}
+                Submit Quiz
               </button>
-            ))}
-          </div>
-          {feedback && (
-            <div className="mt-4 text-lg font-semibold">
-              {feedback}
-            </div>
-          )}
-          {selectedAnswer && (
-            <>
-              <button
-                onClick={handleNextQuestion}
-                className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
-              >
-                Next Question
-              </button>
-              {currentQuestionIndex === questions.length - 1 && (
-                <button
-                  onClick={handleSubmitQuiz}
-                  className="mt-6 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
-                >
-                  Submit Quiz
-                </button>
-              )}
-            </>
-          )}
-        </div>
-      )}
-
-      {submitting && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-          <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
-        </div>
-      )}
-    </div>
+            )}
+          </>
+        )}
+      </div>
+    )}
+  
+    {submitting && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+      </div>
+    )}
+  </div>
+  
   );
 };
 
